@@ -1,0 +1,129 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+
+/* ============ reset ============ */
+html, body, div, span, iframe,
+h1, h2, h3, h4, h5, h6, p,
+a, address, em, img, strong,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, tbody, tfoot, thead, tr, th, td,
+article, aside, footer, header,
+menu, nav, section, time, audio, video, figure {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+html, body {
+    line-height: 1;
+    font-weight: 400;
+    font-family: 'Nanum Gothic', sans-serif;
+    color: #000;
+}
+address,em {font-style: inherit; font-weight: inherit;}
+a {text-decoration: none; color: inherit;}
+img {width: 100%; max-width: 100%; vertical-align: middle;}
+
+
+/* 폰트사이즈 기준 */
+html {font-size: 10px;}
+
+@media (min-width: 414px) {html {font-size: 11px;}} 	/* 아이폰 6+, 7+, 8+ */
+
+@media (min-width: 768px) {html {font-size: 12px;}} 	/* tablet */
+
+@media (min-width: 1024px) {html {font-size: 10px;}}	/* pc */
+
+
+/* html5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+ol, ul {
+    list-style: none;
+}
+
+
+
+
+
+/* ============ form ============ */
+input, select, textarea, button {
+    font-size: 1.6rem;
+    line-height: 1.1;
+    font-weight: 400;
+    font-family: 'LG Smart', sans-serif;
+    vertical-align: middle;
+}
+input, input[type="text"], input[type="search"], input[type="password"] {
+    width: 100%;
+    padding: 0 15px;
+    height: 48px;
+    color: #333;
+    border: 1px solid #939393;
+    border-radius: 5px;
+    background: #fafafa;
+    box-sizing: border-box;
+}
+button {
+    padding: 0;
+    border: 0 none;
+    background-color: transparent;
+    cursor: pointer;
+}
+input[type="radio"],
+input[type="checkbox"] {
+    margin: 0;
+    padding: 0;
+    background: none;
+}
+
+
+/* placeholder */
+input::-webkit-input-placeholder,
+::-webkit-input-placeholder {color: rgba(51, 51, 51, 0.6);}		/* chrome 4 ~56 */
+input::-moz-placeholder,
+::-moz-placeholder {color: rgba(51, 51, 51, 0.6);}				/* firefox 4 ~ 18 */
+input:-moz-placeholder,
+:-moz-placeholder {color: rgba(51, 51, 51, 0.6);}				/* firefox 19 ~ 50 */
+input::placeholder,
+::placeholder {color: rgba(51, 51, 51, 0.6);}					/* firefox 51+, chrome 57+ */
+input:-ms-input-placeholder,
+:-ms-input-placeholder {color: rgba(51, 51, 51, 0.6);}			/* ie 10+ */
+
+
+/* mobile reset */
+body {-webkit-text-size-adjust: none} /* 뷰표트 변환시 폰트크기 자동확대 방지 */
+input,
+input[type='text'],
+input[type='password'],
+input[type='submit'],
+input[type='tel'],
+input[type='search'], textarea {-webkit-appearance: none;}
+input[type=number] {-moz-appearance: textfield;}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {-webkit-appearance: none; margin: 0;}
+input:checked[type='checkbox'] {background: #666; -webkit-appearance: checkbox;}
+button, input[type='button'],
+input[type='submit'],
+input[type='reset'],
+input[type='file'] {-webkit-appearance: button; border-radius: 0;}
+input[type='search']::-webkit-search-cancel-button {-webkit-appearance: none;}
+
+
+
+
+
+/* ============ hide ============ */
+caption,
+legend {padding: 0; width:0; height:0; font-size:0; line-height:0; text-indent: -9999px; overflow:hidden;}
+
+
+/* 대체 텍스트 숨김 */
+.ir_pm {display:block; overflow:hidden; font-size:0px; line-height:0; text-indent:-9999px;} /* 사용된 이미지내 의미있는 텍스트의 대체텍스트를 제공할때 */
+.ir_wa {display:block; overflow:hidden; position:relative; z-index:-1; width:100%; height:100%;} /* 중요한 이미지 대체텍스트로 이미지off시에도 대체 텍스트를 보여주고자 할때 */
+.screen_out {overflow:hidden; position:absolute; width:0; height:0; line-height:0; text-indent:-9999px;} /* 대체텍스트가 아닌 접근성을 위한 숨김텍스트를 제공할때 */

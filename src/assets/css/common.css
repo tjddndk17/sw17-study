@@ -1,0 +1,47 @@
+#root {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px 0;
+    background-color: #f0f0f7;
+}
+
+#header ul {
+    display: flex;
+}
+
+#header ul li {
+    margin-right: 3rem;
+    font-size: 1.5rem;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+    background-color: #f0f0f7;
+}
+
+#wrap {
+    width: 95%;
+    margin: 0 auto;
+    padding: 70px 0;
+}
+
+.inner {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.pre_box {
+
+}
+
