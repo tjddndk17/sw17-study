@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components"
 import {BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-const main = () => {
+const Main = () => {
     
     return (
         <Wrap>
@@ -19,4 +19,4 @@ const Wrap = styled.div`
 `;
 
 
-export default main;
+export default Main;

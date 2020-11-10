@@ -7,15 +7,15 @@ import DataList from '../../data/algorism'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons'
 
-const view = () => {
+const List = () => {
     
     return (
-        <Wrap>
+        <Wrap className="inner">
             <h2>javascript 알고리즘</h2>
             
             <ul className="list_box">
-                {DataList.map((value) =>
-                    <li>
+                {DataList.map((value, index) =>
+                    <li key={index}>
                         <Link to={"/algorism/week" + value.week}><Icon icon={faDotCircle} size="xs" /> {value.week} 주차</Link>
                     </li>
                 )}
@@ -42,4 +42,4 @@ const Wrap = styled.div`
   }
 `;
 
-export default view;
+export default List;

@@ -3,13 +3,13 @@ import styled from "styled-components";
 import {FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome';
 import * as sIcon from '@fortawesome/free-solid-svg-icons'
 
-const NoPage = () => {
+const NoData = (prop) => {
     
     return (
         <Wrap>
             <div className="empty_box">
                 <Icon icon={sIcon.faExclamationCircle} />
-                <span>존재하지 않는 페이지 입니다.</span>
+                <span>{prop.text} 데이터가 없습니다.</span>
             </div>
         </Wrap>
     )
@@ -39,4 +39,5 @@ const Wrap = styled.div`
   }
 `
 
-export default NoPage;
+
+export default NoData;

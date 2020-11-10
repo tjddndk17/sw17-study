@@ -160,5 +160,22 @@ export default [
                 }
             `}
         ]
+    },
+    
+    // 2 추차
+    // =================================================================================================================
+    {
+        week: '3',
+        list: [
+            {quiz:'조이스틱', source: 'https://programmers.co.kr/learn/courses/30/lessons/42860', code: `
+            
+            `},
+            {quiz:'가장 큰 수', source: 'https://programmers.co.kr/learn/courses/30/lessons/42746', code: `
+            
+            `},
+            {quiz:'베스트앨범', source: 'https://programmers.co.kr/learn/courses/30/lessons/42579', code: `
+            
+            `},
+        ]
     }
 ]
