@@ -168,14 +168,145 @@ export default [
         week: '3',
         list: [
             {quiz:'조이스틱', source: 'https://programmers.co.kr/learn/courses/30/lessons/42860', code: `
-            
+                function solution(name) {
+                    let answer = 0;
+                    
+                    // 기본 셋팅
+                    const abc = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                    const arr = name.split("");
+                    
+                    // 위아래 최소값 구하기
+                    for(let val of arr){
+                        let index = abc.indexOf(val);
+                        answer += index >= 13 ? 26 - index : index;
+                    }
+                    
+                    // 좌우 최소값 구하기
+                    // 좌, 우, 좌->우, 우->좌 4가지 방법이있고
+                    // A가 아닌 영문은 기준이 될수있음
+                    // 해당기준으로 모든 경우의 수를 구하여 그중에 최소값을 구하기
+                    let moveList = [];
+                    for(let i=1; i<arr.length; i++){
+                        if(arr[i-1] != "A"){
+                            
+                            let srr = arr.slice(0, i);
+                            let nrr = arr.slice(i, arr.length);
+                            
+                            let ssr = nrr.concat(srr);
+                            let nnr = srr.reverse().concat(nrr.reverse());
+                            
+                            let ssrCount = 0;
+                            let nnrCount = 0;
+                            
+                            for(let j=0; j<ssr.length; j++){
+                                if(ssr[j] != "A") ssrCount = j;
+                            }
+                            
+                            for(let j=0; j<nnr.length; j++){
+                                if(nnr[j] != "A") nnrCount = j;
+                            }
+                            
+                            moveList.push(Math.min(ssrCount, nnrCount) + Math.min(i-1, arr.length - i + 1));
+                        }
+                    }
+                    
+                    answer += Math.min(...moveList);
+                    
+                    return answer;
+                }
             `},
             {quiz:'가장 큰 수', source: 'https://programmers.co.kr/learn/courses/30/lessons/42746', code: `
-            
+                function solution(numbers) {
+                    let answer = '';
+                    
+                    // string 으로 변환
+                    let arr = numbers.map(val => String(val));
+                    
+                    // 가장큰수가 되기 위해선 이어붙인 수중 큰것이 앞으로 오면됨
+                    arr.sort((a, b) => {
+                        if(a+b > b+a){
+                            return -1;
+                        }
+                        
+                        if(a+b < b+a){
+                            return 1;
+                        }
+                        
+                        return 0;
+                    })
+                
+                    // 0000... 일때는 0, 아니면 이어붙인 값
+                    answer = arr[0] === "0" ? "0" : arr.join("");
+                
+                    return answer;
+                }
             `},
             {quiz:'베스트앨범', source: 'https://programmers.co.kr/learn/courses/30/lessons/42579', code: `
+                function solution(genres, plays){
+                    let answer = [];
+                    
+                    // 장르별로 묶기위하여 Set으로 중복제거
+                    let arr = new Set(genres);
+                    
+                    // 장르별 obj 공간을 만들어줌 [ name: 장르명, list: 노래가 들어갈 list, sum: 장르의 총 재생수 ]
+                    let obj = [];
+                    for(let val of arr){
+                        obj.push({name: val, list: [], sum: 0});
+                    }
+                    
+                    // 장르별 obj 공간에 노래들을 알맞게 넣어줌
+                    for(let i=0; i<genres.length; i++){
+                        for(let item of obj){
+                            if(item.name == genres[i]){
+                                item.list.push({id: i, plays: plays[i]});
+                                item.sum += plays[i];
+                            }
+                        }
+                    }
+                    
+                    // 1. 장르 총 재생수 대로 정렬
+                    obj.sort((a,b) => b.sum - a.sum);
+                
+                    // 2. 장르의 노래 리스트중 재생수 대로 정렬, 재생수 같으면 id대로 정렬
+                    // 3. 정렬이 되었으니 0,1 번째 노래의 id를 넣어줌
+                    for(let item of obj){
+                        item.list.sort((a,b) => {
+                            if(a.plays > b.plays){
+                                return -1;
+                            }
+                            if(a.plays < b.plays){
+                                return 1;
+                            }
+                            if(a.id > b.id){
+                                return 1;
+                            }
+                            if(a.id < b.id){
+                                return -1;
+                            }
+                            return 0;
+                        });
+                
+                        answer.push(item.list[0].id)
+                        if(item.list[1]) answer.push(item.list[1].id);
+                    }
+                    
+                    return answer;
+                }
+            `},
+        ]
+    },
+    {
+        week: '4',
+        list: [
+            {quiz: '디스크 컨트롤러', source: 'https://programmers.co.kr/learn/courses/30/lessons/42627?language=javascript', code: `
             
             `},
+            {quiz: '프린터', source: 'https://programmers.co.kr/learn/courses/30/lessons/42587?language=javascript', code: `
+            
+            `},
+            {quiz: '여행경로', source: 'https://programmers.co.kr/learn/courses/30/lessons/43164', code: `
+            
+            `}
         ]
     }
 ]

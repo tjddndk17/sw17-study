@@ -9,137 +9,124 @@ import TopBack from '../../component/common/TopBack'
 
 const Detail = ({match}) => {
     
-    function solution1(name) {
+    // 디스크 컨트롤러
+    function solution1(jobs) {
+        
+        let count = jobs.length;
+        let time = 0;
+        let sum = 0;
+        
+        // 최초 정렬
+        jobs.sort((acc,cur) => {
+            return acc[0] === cur[0] ? acc[1] - cur[1] : acc[0] - cur[0];
+        });
+        
+        while (jobs.length > 0) {
+   
+            // 진행가능한 job
+            const job = jobs.filter(item => item[0] <= time);
+            
+            // 진행할 job
+            let run = null;
+  
+            if (job.length > 0) {
+                
+                // 진행가능한 job중 소요시간이 가장 작은것
+                job.sort((a,b) => a[1] - b[1]);
+                let minIndex = jobs.findIndex(item => item === job[0]);
+                run = jobs.splice(minIndex, 1)[0];
+            } else {
+                
+                // 진행가능한 job 없으면 첫번째 job
+                run = jobs.shift();
+            }
+            
+            // 시간 계산
+            sum += run[0] >= time ? run[1] : run[1] + time - run[0];
+            time = run[0] >= time ? run[1] + run[0] : time + run[1];
+        }
+    
+        return Math.floor(sum/count);
+    }
+    
+    console.log(solution1([[0, 3], [1, 9], [2, 6]]));
+    
+    // 프린터
+    function solution2(priorities, location) {
         let answer = 0;
-    
-        // 기본 셋팅
-        const abc = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-        const arr = name.split("");
         
-        // 위아래 최소값 구하기
-        for(let val of arr){
-            let index = abc.indexOf(val);
-            answer += index >= 13 ? 26 - index : index;
-        }
-        
-        // 좌우 최소값 구하기
-        // 좌, 우, 좌->우, 우->좌 4가지 방법이있고
-        // A가 아닌 영문은 기준이 될수있음
-        // 해당기준으로 모든 경우의 수를 구하여 그중에 최소값을 구하기
-        let moveList = [];
-        for(let i=1; i<arr.length; i++){
-            if(arr[i-1] != "A"){
-                
-                let startNum = Math.min(i-1, arr.length - i + 1);
-                
-                let srr = arr.slice(0, i);
-                let nrr = arr.slice(i, arr.length);
-    
-                let ssr = srr.concat(nrr);
-                let nnr = srr.reverse().concat(nrr.reverse());
-    
-                let ssrCount = 0;
-                let nnrCount = 0;
-                
-                console.log(ssr);
-                console.log(nnr);
-                console.log("-----------------------------------");
-                
-                for(let j=0; j<ssr.length; j++){
-                    if(ssr[j] != "A") ssrCount = j;
-                }
-    
-                for(let j=0; j<nnr.length; j++){
-                    if(nnr[j] != "A") nnrCount = j;
-                }
-                
-                moveList.push(Math.min(ssrCount, nnrCount) + startNum);
-            }
-        }
-        
-        answer += Math.min(...moveList);
-        
-        return answer;
-    }
-    
-    console.log(solution1("JEROEN"));
-    
-    
-    function solution2(numbers) {
-        let answer = '';
-        
-        // string 으로 변환
-        let arr = numbers.map(val => String(val));
-        
-        // 가장큰수가 되기 위해선 이어붙인 수중 큰것이 앞으로 오면됨
-        arr.sort((a, b) => {
-            if(a+b > b+a){
-                return -1;
-            }
-            
-            if(a+b < b+a){
-                return 1;
-            }
-            
-            return 0;
+        // 원래의 순번을 알기위해 2차원 배열로 변경
+        let list = priorities.map((e,i)=>{
+            return [e,i];
         })
-    
-        // 0000... 일때는 0, 아니면 이어붙인 값
-        answer = arr[0] === "0" ? "0" : arr.join("");
-    
-        return answer;
-    }
-    
-    function solution3(genres, plays){
-        let answer = [];
         
-        // 장르별로 묶기위하여 Set으로 중복제거
-        let arr = new Set(genres);
-        
-        // 장르별 obj 공간을 만들어줌 [ name: 장르명, list: 노래가 들어갈 list, sum: 장르의 총 재생수 ]
-        let obj = [];
-        for(let val of arr){
-            obj.push({name: val, list: [], sum: 0});
-        }
-        
-        // 장르별 obj 공간에 노래들을 알맞게 넣어줌
-        for(let i=0; i<genres.length; i++){
-            for(let item of obj){
-                if(item.name == genres[i]){
-                    item.list.push({id: i, plays: plays[i]});
-                    item.sum += plays[i];
+        let index = 0;
+        while(list.length > 0) {
+            let num = list.splice(0, 1)[0];
+
+            // 뒤에 큰값이 있으면 맨뒤로
+            if(list.filter(e => e[0]>num[0]).length > 0){
+                list.push(num);
+            }
+            // 뒤에 큰값이 없으면 출력
+            else {
+                index++;
+                if(num[1] == location){
+                    return index;
                 }
             }
         }
+    }
+    
+    console.log(solution2([2, 1, 3, 2], 2));
+    
+    // 여행경로
+    function solution3(tickets){
+        let answer = []
+    
+        // 최조 정렬
+        tickets.sort();
+        let done = false;
         
-        // 1. 장르 총 재생수 대로 정렬
-        obj.sort((a,b) => b.sum - a.sum);
+        // 최초 실행
+        dfs('ICN', tickets, []);
     
-        // 2. 장르의 노래 리스트중 재생수 대로 정렬, 재생수 같으면 id대로 정렬
-        // 3. 정렬이 되었으니 0,1 번째 노래의 id를 넣어줌
-        for(let item of obj){
-            item.list.sort((a,b) => {
-                if(a.plays > b.plays){
-                    return -1;
+        function dfs(departure, remain, route) {
+        
+            if (done) return;
+        
+            // 여행 가능한 경로
+            const possibleTickets = remain.filter(item => item[0] === departure);
+        
+            possibleTickets.forEach(possibleTkt => {
+            
+                // array 복제
+                let tmp_remain = Array.from(remain);
+                let tmp_route = Array.from(route);
+            
+                // 해당 index
+                const idx = tmp_remain.findIndex(item => item === possibleTkt);
+                tmp_remain.splice(idx, 1);
+            
+                // 최종 여행경로 O
+                if (tmp_route.length === tickets.length - 1) {
+                    tmp_route = tmp_route.concat(possibleTkt);
+                    done = true;
+                    answer = tmp_route;
                 }
-                if(a.plays < b.plays){
-                    return 1;
+                // 최종 여행경로 X
+                else {
+                    tmp_route.push(possibleTkt[0]);
+                    dfs(possibleTkt[1], tmp_remain, tmp_route);
                 }
-                if(a.id > b.id){
-                    return 1;
-                }
-                if(a.id < b.id){
-                    return -1;
-                }
-                return 0;
-            });
-    
-            answer.push(item.list[0].id)
-            if(item.list[1]) answer.push(item.list[1].id);
+            })
         }
-        
+    
         return answer;
     }
+
+    
+    console.log(solution3([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]));
     
     
     
