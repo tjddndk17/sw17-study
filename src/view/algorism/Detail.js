@@ -9,124 +9,85 @@ import TopBack from '../../component/common/TopBack'
 
 const Detail = ({match}) => {
     
-    // 디스크 컨트롤러
-    function solution1(jobs) {
-        
-        let count = jobs.length;
-        let time = 0;
-        let sum = 0;
-        
-        // 최초 정렬
-        jobs.sort((acc,cur) => {
-            return acc[0] === cur[0] ? acc[1] - cur[1] : acc[0] - cur[0];
-        });
-        
-        while (jobs.length > 0) {
-   
-            // 진행가능한 job
-            const job = jobs.filter(item => item[0] <= time);
-            
-            // 진행할 job
-            let run = null;
-  
-            if (job.length > 0) {
-                
-                // 진행가능한 job중 소요시간이 가장 작은것
-                job.sort((a,b) => a[1] - b[1]);
-                let minIndex = jobs.findIndex(item => item === job[0]);
-                run = jobs.splice(minIndex, 1)[0];
-            } else {
-                
-                // 진행가능한 job 없으면 첫번째 job
-                run = jobs.shift();
-            }
-            
-            // 시간 계산
-            sum += run[0] >= time ? run[1] : run[1] + time - run[0];
-            time = run[0] >= time ? run[1] + run[0] : time + run[1];
-        }
-    
-        return Math.floor(sum/count);
-    }
-    
-    console.log(solution1([[0, 3], [1, 9], [2, 6]]));
-    
-    // 프린터
-    function solution2(priorities, location) {
+    // 체육복
+    // 각단계에서 가장 최선의 선택을 하는 기법
+    // 미래를 생각하지 않음으로 통하지 않는 경우가 있음
+    function solution(n, lost, reserve) {
         let answer = 0;
         
-        // 원래의 순번을 알기위해 2차원 배열로 변경
-        let list = priorities.map((e,i)=>{
-            return [e,i];
-        })
-        
-        let index = 0;
-        while(list.length > 0) {
-            let num = list.splice(0, 1)[0];
-
-            // 뒤에 큰값이 있으면 맨뒤로
-            if(list.filter(e => e[0]>num[0]).length > 0){
-                list.push(num);
+        let list = [];
+        for(let i=1; i<=n; i++){
+            let item = 1;
+            
+            if(lost.indexOf(i) >= 0){
+                item--;
             }
-            // 뒤에 큰값이 없으면 출력
-            else {
-                index++;
-                if(num[1] == location){
-                    return index;
+            
+            if(reserve.indexOf(i) >= 0){
+                item++;
+            }
+            
+            list.push(item);
+        }
+        
+        for(let i=0; i<list.length; i++){
+            let u = list[i];
+            
+            if(u == 0){
+                if(i > 0){
+                    if(list[i-1] > 1){
+                        list[i-1] = 1;
+                        u = 1;
+                    }
                 }
+                
+                if(u == 0 && i<list.length){
+                    if(list[i+1] > 1){
+                        list[i+1] = 1;
+                        u = 1;
+                    }
+                }
+            }
+            
+            if(u>0){
+                answer++;
             }
         }
-    }
-    
-    console.log(solution2([2, 1, 3, 2], 2));
-    
-    // 여행경로
-    function solution3(tickets){
-        let answer = []
-    
-        // 최조 정렬
-        tickets.sort();
-        let done = false;
         
-        // 최초 실행
-        dfs('ICN', tickets, []);
-    
-        function dfs(departure, remain, route) {
-        
-            if (done) return;
-        
-            // 여행 가능한 경로
-            const possibleTickets = remain.filter(item => item[0] === departure);
-        
-            possibleTickets.forEach(possibleTkt => {
-            
-                // array 복제
-                let tmp_remain = Array.from(remain);
-                let tmp_route = Array.from(route);
-            
-                // 해당 index
-                const idx = tmp_remain.findIndex(item => item === possibleTkt);
-                tmp_remain.splice(idx, 1);
-            
-                // 최종 여행경로 O
-                if (tmp_route.length === tickets.length - 1) {
-                    tmp_route = tmp_route.concat(possibleTkt);
-                    done = true;
-                    answer = tmp_route;
-                }
-                // 최종 여행경로 X
-                else {
-                    tmp_route.push(possibleTkt[0]);
-                    dfs(possibleTkt[1], tmp_remain, tmp_route);
-                }
-            })
-        }
-    
         return answer;
     }
-
     
-    console.log(solution3([["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]));
+    console.log(solution(5, [2,4], [3]));
+    
+    
+    
+    // 자동완성
+    function solution1(words) {
+        let answer = 0;
+        
+        for(let item of words){
+            let check = '';
+    
+            for(let i=0; i<item.length; i++){
+                check += item[i];
+                let count = words.filter((word) => {
+                    return word.slice(0, i+1) == check;
+                }).length;
+        
+                if(count == 1){
+                    break;
+                }
+            }
+    
+            answer += check.length;
+        }
+        
+        return answer;
+    }
+    
+    console.log(solution1(['word','war','warrior','world']));
+    
+
     
     
     
