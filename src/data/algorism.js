@@ -416,9 +416,84 @@ export default [
         week: '5',
         list: [
             {quiz: '체육복 [ 탐욕법 / Lv.1 ]', source: 'https://programmers.co.kr/learn/courses/30/lessons/42862', code: `
-            
+                function solution(n, lost, reserve) {
+                    let answer = 0;
+                    
+                    let list = [];
+                    for(let i=1; i<=n; i++){
+                        let item = 1;
+                        
+                        if(lost.indexOf(i) >= 0){
+                            item--;
+                        }
+                        
+                        if(reserve.indexOf(i) >= 0){
+                            item++;
+                        }
+                        
+                        list.push(item);
+                    }
+                    
+                    for(let i=0; i<list.length; i++){
+                        let u = list[i];
+                        
+                        if(u == 0){
+                            if(i > 0){
+                                if(list[i-1] > 1){
+                                    list[i-1] = 1;
+                                    u = 1;
+                                }
+                            }
+                            
+                            if(u == 0 && i<list.length){
+                                if(list[i+1] > 1){
+                                    list[i+1] = 1;
+                                    u = 1;
+                                }
+                            }
+                        }
+                        
+                        if(u>0){
+                            answer++;
+                        }
+                    }
+                    
+                    return answer;
+                }
             `},
             {quiz: '자동완성 [ Lv.4 ]', source: 'https://programmers.co.kr/learn/courses/30/lessons/17685', code: `
+                function solution(words) {
+                    let answer = 0;
+                    words.sort();
+                    for(let item of words){
+                        let check = '';
+                
+                        for(let i=0; i<item.length; i++){
+                            check += item[i];
+                            let count = words.filter((word) => {
+                                return word.substr(0, i+1) == check;
+                            }).length;
+                    
+                            if(count == 1){
+                                break;
+                            }
+                        }
+                
+                        answer += check.length;
+                    }
+                    
+                    return answer;
+                }
+            `}
+        ]
+    },
+    {
+        week: '6',
+        list: [
+            {quiz: '다리를 지나는 트럭 [ Lv.2 ]', source: 'https://programmers.co.kr/learn/courses/30/lessons/42583', code: `
+            
+            `},
+            {quiz: '섬 연결하기 [ Lv.3 ]', source: 'https://programmers.co.kr/learn/courses/30/lessons/42861?language=javascript', code: `
             
             `}
         ]
