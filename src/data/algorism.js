@@ -583,9 +583,50 @@ export default [
         week: '7',
         list: [
             {quiz: '124 나라의 숫자 [ Lv.2 ]', source: 'https://programmers.co.kr/learn/courses/30/lessons/12899', code: `
+                function solution(n) {
+                    let answer = '';
+                    
+                    // n/3의 나머지는 [1,2,0] 반복
+                    // 나머지가 0일때는 -1 해줘야함
+                    let list = [4,1,2];
             
+                    while(n){
+                        
+                        let r = n%3;
+                        
+                        if(r == 0){
+                            n = n/3 - 1;
+                        } else {
+                            n = Math.floor(n/3);
+                        }
+                
+                        answer = list[r] + answer;
+                    }
+                    
+                    return answer;
+                }
             `},
             {quiz: '2 x n 타일링 [ Lv.3 ]', source: 'https://programmers.co.kr/learn/courses/30/lessons/12900?language=javascript', code: `
+                function solution(n){
+                    let prev = 0;
+                    let curr = 1;
+                    let next = 1;
+                    
+                    for (let i = 0; i < n; i++) {
+                        next = (prev + curr) % 1000000007;
+                        prev = curr;
+                        curr = next;
+                    }
+                    
+                    return curr;
+                }
+            `}
+        ]
+    },
+    {
+        week: '8',
+        list: [
+            {quiz: '방의 개수 [ Lv.5 ]', source: 'https://programmers.co.kr/learn/courses/30/lessons/49190', code: `
             
             `}
         ]
